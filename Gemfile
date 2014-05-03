@@ -9,6 +9,7 @@ gem 'geokit-rails'
 gem 'acts_as_geocodable'
 gem 'faraday'
 
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.3'
 

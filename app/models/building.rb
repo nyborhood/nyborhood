@@ -5,7 +5,7 @@ class Building < ActiveRecord::Base
   # geocoded_by :full_address
   # after_validation :geocode, :if => :address_changed?  
   after_rollback :update_duplicate_flag
-  default_scope {where full_address: true}
+  # default_scope {where full_address: true}
   scope :needs_geocoding, -> {where(geo_checked: false)}
 
   def update_duplicate_flag

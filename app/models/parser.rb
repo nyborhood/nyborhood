@@ -21,10 +21,15 @@ FIELD_DATA = ["agency_name", "incident_address", "address_type", "borough", "cit
   def parse_registered_buildings_txt
     buildings = File.read(@url)
     building_string = buildings.split(/[\r\n]+/)
-    
+
     building_string.each do |building|
       new_bldg = building.split('|')
-      building_instance = Building.create(:unique_building_id => new_bldg[0],:borough => new_bldg[1], :address => "#{new_bldg[2]} #{new_bldg[5]}", :zip => new_bldg[6], :block_number => new_bldg[7], :lot_number => new_bldg[8], :bin_number => new_bldg[9], :community_board => new_bldg[10], :census_tract => new_bldg[11], :management_program => new_bldg[12], :dob_building_class => new_bldg[13], :legal_stories => new_bldg[14], :legal_class_a => new_bldg[15], :legal_class_b => new_bldg[16], :registration_id => new_bldg[17], :lifecycle => new_bldg[18], :record_status => new_bldg[19])
+      if locate_building("#{new_bldg[2]} #{new_bldg[5]}", new_bldg[6])      
+        @building.attributes = {:unique_building_id => new_bldg[0], :bin_number => new_bldg[9], :block_number => new_bldg[7], :community_board => new_bldg[10], :block_number => new_bldg[7], :lot_number => new_bldg[8], :management_program => new_bldg[12], :dob_building_class => new_bldg[13], :legal_stories => new_bldg[14], :legal_class_a => new_bldg[15], :legal_class_b => new_bldg[16], :registration_id => new_bldg[17], :lifecycle => new_bldg[18], :record_status => new_bldg[19]}
+        @building.save
+      else
+        building_instance = Building.create(:unique_building_id => new_bldg[0],:borough => new_bldg[1], :address => "#{new_bldg[2]} #{new_bldg[5]}", :zip => new_bldg[6], :block_number => new_bldg[7], :lot_number => new_bldg[8], :bin_number => new_bldg[9], :community_board => new_bldg[10], :census_tract => new_bldg[11], :management_program => new_bldg[12], :dob_building_class => new_bldg[13], :legal_stories => new_bldg[14], :legal_class_a => new_bldg[15], :legal_class_b => new_bldg[16], :registration_id => new_bldg[17], :lifecycle => new_bldg[18], :record_status => new_bldg[19])
+      end
     end
   end
   #at some point I need to remove the header row!
@@ -71,8 +76,10 @@ FIELD_DATA = ["agency_name", "incident_address", "address_type", "borough", "cit
   end
 
 end
-#
-
+#834233
+#861904
+# 101 1 AVENUE
+# t = Parser.new("/Users/alishamcwilliams/Desktop/Development/Personal Projects/nyc_apartment_app/CSVs/Buildings20140301/Building20140228.txt")
+# t = Parser.new("/Users/alishamcwilliams/Desktop/Development/Personal Projects/nyc_apartment_app/CSVs/nyc_pluto_13v2/BK.csv")
 # Parser.new("https://data.cityofnewyork.us/api/views/erm2-nwe9/rows.json?accessType=DOWNLOAD")
 # t = Parser.new("db/311_Service_Requests_from_2010_to_Present.csv")
-# t = Parser.new("db/nyc_pluto_13v2/MN.csv")

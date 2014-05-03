@@ -1,7 +1,7 @@
 class BuildingsController < ApplicationController
 
   def index
-    @buildings = Building.limit(1000)
+    @buildings = Building.all
     respond_to do |format|
       format.html
       format.csv { render text: @buildings.to_csv }
