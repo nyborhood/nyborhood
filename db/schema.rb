@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140329150534) do
+ActiveRecord::Schema.define(version: 20140503234258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,10 @@ ActiveRecord::Schema.define(version: 20140329150534) do
     t.string   "city",                              default: "New York City"
     t.boolean  "has_duplicate",                     default: false
     t.boolean  "geo_checked",                       default: false
+    t.string   "zip4"
+    t.string   "ss_address"
+    t.string   "ss_footnotes"
+    t.string   "ss_lat_and_long_precision"
   end
 
   create_table "complaints", force: true do |t|

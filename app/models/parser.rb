@@ -64,6 +64,18 @@ FIELD_DATA = ["agency_name", "incident_address", "address_type", "borough", "cit
     end
   end
 
+  def smartystreets_csv
+    CSV.foreach(@url) do |row|
+      new_row = row.join(",")
+      sequence, duplicate, deliverable, freeform, id, address, city, state, zip, firm_name, smartystreets_address, deliveryline2, urbanization, city, state, full_zip_code, ss_addresszip_code2, add_on_zipcode, pmb_unit, pmbnumber, processflag, flagreason, smartystreets_footnotes, ews, countyfips, countyname, dpvcode, dpvfootnotes, cmra, vacant, active, default_flag, lacs_ind, lacs_linkcode, lacs_linkind, delivery_point, checkdigit, delivery_point_barcode, carrier_route, record_type, ziptype, congressional_district, rdi, elotsequence, elot_sort, suite_link_match, time_zone, utc_offset, dst, latitude, longitude, precision = new_row.split(",")
+      if id.to_i != 0
+        building = Building.find(id)
+        building.attributes = {ss_address: smartystreets_address, zip4: add_on_zipcode, ss_footnotes: smartystreets_footnotes, latitude: latitude, longitude: longitude, ss_lat_and_long_precision: precision, geo_checked: true}
+        binding.pry
+      end
+    end
+  end
+
   # def update_building_record(record)
   #   @building.attributes = {latitude: record.latitude, longitude: record.longitude}
   #   @building.save
@@ -79,6 +91,7 @@ end
 #834233
 #861904
 # 101 1 AVENUE
+# t = Parser.new("/Users/alishamcwilliams/Desktop/Development/Personal Projects/nyc_apartment_app/CSVs/buildings_update--2014-05-03/everything_without_A_footnote.csv")
 # t = Parser.new("/Users/alishamcwilliams/Desktop/Development/Personal Projects/nyc_apartment_app/CSVs/Buildings20140301/Building20140228.txt")
 # t = Parser.new("/Users/alishamcwilliams/Desktop/Development/Personal Projects/nyc_apartment_app/CSVs/nyc_pluto_13v2/BK.csv")
 # Parser.new("https://data.cityofnewyork.us/api/views/erm2-nwe9/rows.json?accessType=DOWNLOAD")
